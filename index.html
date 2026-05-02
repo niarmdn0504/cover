@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Edukasi</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f4f4;
+    }
+
+    video {
+      width: 80%;
+      max-width: 600px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Video Pembelajaran</h2>
+
+  <!-- VIDEO -->
+  <video id="videoPlayer">
+    <source src="video.mp4" type="video/mp4">
+    Browser tidak mendukung video.
+  </video>
+
+  <br>
+
+  <!-- TOMBOL MULAI -->
+  <button onclick="mulaiVideo()">▶ Mulai</button>
+
+  <script>
+    const video = document.getElementById("videoPlayer");
+
+    function mulaiVideo() {
+      video.play();
+
+      // setelah video selesai → redirect
+      video.onended = function() {
+        window.location.href = "https://view.genially.com/69d64d4fb0704131c5d9c2a3"; // ganti link kamu
+      }
+    }
+  </script>
+
+</body>
+</html>
