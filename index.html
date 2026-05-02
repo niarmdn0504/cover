@@ -11,30 +11,40 @@
     body {
       min-height: 100vh;
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(180deg, #87ceeb 0%, #b3e5fc 40%, #e1f5fe 100%);
+      background: linear-gradient(180deg, #4fc3f7 0%, #81d4fa 35%, #b3e5fc 65%, #e1f5fe 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* ── CLOUDS ── */
-    .clouds { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .cloud {
-      position: absolute;
-      background: rgba(255,255,255,0.7);
-      border-radius: 50px;
-      animation: drift linear infinite;
-    }
-    .cloud::before, .cloud::after {
-      content: '';
-      position: absolute;
-      background: rgba(255,255,255,0.7);
+    /* ── SUN ── */
+    .sun {
+      position: fixed;
+      top: 30px; right: 40px;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle, #fff176 40%, #ffee58 70%, transparent 100%);
       border-radius: 50%;
+      box-shadow: 0 0 40px 20px rgba(255,238,88,0.4);
+      animation: sunpulse 4s ease-in-out infinite;
+      z-index: 1;
     }
-    @keyframes drift {
-      from { transform: translateX(-200px); }
+    @keyframes sunpulse {
+      0%,100% { box-shadow: 0 0 40px 20px rgba(255,238,88,0.4); }
+      50%      { box-shadow: 0 0 60px 30px rgba(255,238,88,0.6); }
+    }
+
+    /* ── CLOUDS SVG ── */
+    .cloud-wrap {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 1; overflow: hidden;
+    }
+    .cloud-svg { position: absolute; animation: cloudmove linear infinite; }
+    @keyframes cloudmove {
+      from { transform: translateX(-300px); }
       to   { transform: translateX(110vw); }
     }
 
@@ -42,24 +52,21 @@
     .wrap {
       position: relative; z-index: 10;
       width: 100%; max-width: 720px;
-      display: flex; flex-direction: column; align-items: center;
       border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 16px 48px rgba(0,100,200,0.18);
+      box-shadow: 0 16px 48px rgba(0,100,200,0.2);
     }
 
-    /* ── VIDEO ── */
     video {
       width: 100%;
       display: block;
       background: #000;
     }
 
-    /* ── BOTTOM ── */
     .bottom {
       width: 100%;
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(10px);
       padding: 22px 24px 28px;
       display: flex;
       flex-direction: column;
@@ -113,43 +120,51 @@
 </head>
 <body>
 
-<div class="clouds" id="clouds"></div>
+<!-- Sun -->
+<div class="sun"></div>
+
+<!-- Clouds SVG -->
+<div class="cloud-wrap">
+  <svg class="cloud-svg" style="top:5%;animation-duration:30s;animation-delay:0s;" width="220" height="80" viewBox="0 0 220 80">
+    <ellipse cx="110" cy="55" rx="100" ry="28" fill="white" opacity="0.9"/>
+    <ellipse cx="75"  cy="42" rx="52"  ry="38" fill="white" opacity="0.9"/>
+    <ellipse cx="140" cy="40" rx="48"  ry="34" fill="white" opacity="0.9"/>
+    <ellipse cx="110" cy="36" rx="38"  ry="30" fill="white" opacity="0.9"/>
+  </svg>
+  <svg class="cloud-svg" style="top:12%;animation-duration:22s;animation-delay:-8s;" width="160" height="60" viewBox="0 0 160 60">
+    <ellipse cx="80"  cy="42" rx="72"  ry="20" fill="white" opacity="0.85"/>
+    <ellipse cx="55"  cy="32" rx="38"  ry="28" fill="white" opacity="0.85"/>
+    <ellipse cx="105" cy="30" rx="35"  ry="25" fill="white" opacity="0.85"/>
+  </svg>
+  <svg class="cloud-svg" style="top:20%;animation-duration:38s;animation-delay:-15s;" width="280" height="90" viewBox="0 0 280 90">
+    <ellipse cx="140" cy="65" rx="128" ry="28" fill="white" opacity="0.8"/>
+    <ellipse cx="90"  cy="50" rx="62"  ry="44" fill="white" opacity="0.8"/>
+    <ellipse cx="185" cy="48" rx="58"  ry="40" fill="white" opacity="0.8"/>
+    <ellipse cx="140" cy="42" rx="46"  ry="34" fill="white" opacity="0.8"/>
+  </svg>
+  <svg class="cloud-svg" style="top:2%;animation-duration:26s;animation-delay:-20s;" width="140" height="55" viewBox="0 0 140 55">
+    <ellipse cx="70"  cy="38" rx="62"  ry="18" fill="white" opacity="0.75"/>
+    <ellipse cx="48"  cy="28" rx="34"  ry="25" fill="white" opacity="0.75"/>
+    <ellipse cx="95"  cy="27" rx="30"  ry="22" fill="white" opacity="0.75"/>
+  </svg>
+</div>
 
 <div class="wrap">
-  <video id="vid" autoplay playsinline controls>
+  <video id="vid" autoplay muted playsinline controls>
     <source src="video.mp4" type="video/mp4">
   </video>
 
   <div class="bottom">
-    <button id="btnMulai" onclick="keGenially()">▶ Mulai</button>
+    <button id="btnMulai" onclick="keGenially()">▶ Mulai Belajar</button>
     <button id="btnLanjut" onclick="keGenially()">🚀 Lanjut ke Materi →</button>
   </div>
 </div>
 
 <script>
-  // Clouds
-  const cloudsEl = document.getElementById('clouds');
-  const cloudData = [
-    { top: 8,  w: 120, h: 36, dur: 28, delay: 0 },
-    { top: 18, w: 80,  h: 24, dur: 22, delay: 5 },
-    { top: 5,  w: 160, h: 44, dur: 35, delay: 12 },
-    { top: 25, w: 100, h: 30, dur: 26, delay: 8 },
-    { top: 12, w: 60,  h: 20, dur: 18, delay: 3 },
-  ];
-  cloudData.forEach(c => {
-    const el = document.createElement('div');
-    el.className = 'cloud';
-    el.style.cssText = `top:${c.top}%; width:${c.w}px; height:${c.h}px; animation-duration:${c.dur}s; animation-delay:-${c.delay}s;`;
-    el.style.setProperty('--tw', c.w + 'px');
-    el.before;
-    cloudsEl.appendChild(el);
-  });
-
   const vid = document.getElementById('vid');
   const btnMulai = document.getElementById('btnMulai');
   const btnLanjut = document.getElementById('btnLanjut');
 
-  // autoplay fallback
   vid.play().catch(() => {});
 
   vid.onended = () => {
