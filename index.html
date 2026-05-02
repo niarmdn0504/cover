@@ -11,130 +11,65 @@
     body {
       min-height: 100vh;
       font-family: 'Nunito', sans-serif;
-      background: #0a1628;
+      background: linear-gradient(180deg, #87ceeb 0%, #b3e5fc 40%, #e1f5fe 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      overflow-x: hidden;
     }
 
-    /* ── ANIMATED STARS BG ── */
-    .stars {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      overflow: hidden;
-    }
-    .star {
+    /* ── CLOUDS ── */
+    .clouds { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .cloud {
       position: absolute;
-      background: #fff;
-      border-radius: 50%;
-      animation: twinkle linear infinite;
+      background: rgba(255,255,255,0.7);
+      border-radius: 50px;
+      animation: drift linear infinite;
     }
-    @keyframes twinkle {
-      0%,100% { opacity: 0.1; transform: scale(1); }
-      50%      { opacity: 0.8; transform: scale(1.4); }
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: rgba(255,255,255,0.7);
+      border-radius: 50%;
+    }
+    @keyframes drift {
+      from { transform: translateX(-200px); }
+      to   { transform: translateX(110vw); }
     }
 
-    /* ── MAIN WRAPPER ── */
+    /* ── WRAP ── */
     .wrap {
       position: relative; z-index: 10;
       width: 100%; max-width: 720px;
-      display: flex; flex-direction: column; align-items: center; gap: 0;
+      display: flex; flex-direction: column; align-items: center;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,100,200,0.18);
     }
 
-    /* ── HEADER CARD ── */
-    .header-card {
-      width: 100%;
-      background: linear-gradient(135deg, #1a3a6b 0%, #0d2447 100%);
-      border: 1.5px solid rgba(100,160,255,0.25);
-      border-radius: 24px 24px 0 0;
-      padding: 32px 28px 24px;
-      text-align: center;
-      box-shadow: 0 -4px 40px rgba(0,100,255,0.15);
-    }
-
-    .badges {
-      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-    .badge {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 11px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.75);
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-    }
-
-    .emoji-icon { font-size: 48px; display: block; margin-bottom: 12px; }
-
-    h1 {
-      font-size: clamp(18px, 5vw, 26px);
-      font-weight: 900;
-      color: #fff;
-      line-height: 1.25;
-      margin-bottom: 6px;
-    }
-    h1 span { color: #64b5f6; }
-
-    .subtitle {
-      font-size: clamp(13px, 3.5vw, 15px);
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 14px;
-    }
-
-    .divider {
-      width: 60px; height: 3px;
-      background: linear-gradient(90deg, #1565c0, #42a5f5);
-      border-radius: 2px;
-      margin: 0 auto 14px;
-    }
-
-    .penulis {
-      font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;
-      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-    }
-    .nama {
-      font-size: clamp(15px, 4vw, 18px);
-      font-weight: 800; color: #fff;
-    }
-
-    /* ── VIDEO SECTION ── */
-    .video-section {
-      width: 100%;
-      background: #000;
-    }
-
+    /* ── VIDEO ── */
     video {
       width: 100%;
       display: block;
-      max-height: 65vw;
       background: #000;
     }
 
-    /* ── BOTTOM CARD ── */
-    .bottom-card {
+    /* ── BOTTOM ── */
+    .bottom {
       width: 100%;
-      background: linear-gradient(135deg, #0d2447 0%, #1a3a6b 100%);
-      border: 1.5px solid rgba(100,160,255,0.25);
-      border-top: none;
-      border-radius: 0 0 24px 24px;
-      padding: 22px 28px 28px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
+      padding: 22px 24px 28px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      gap: 12px;
     }
 
-    /* ── BUTTONS ── */
     #btnMulai {
-      padding: 15px 48px;
-      font-size: clamp(16px, 4.5vw, 20px);
+      padding: 15px 56px;
+      font-size: clamp(17px, 5vw, 22px);
       font-weight: 900;
       font-family: 'Nunito', sans-serif;
       background: linear-gradient(135deg, #2e7d32, #43a047);
@@ -142,117 +77,85 @@
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 6px 24px rgba(46,125,50,0.5);
+      box-shadow: 0 6px 24px rgba(46,125,50,0.4);
       transition: transform 0.15s, box-shadow 0.15s;
-      letter-spacing: 0.5px;
       animation: pulse-green 2s ease-in-out infinite;
     }
     #btnMulai:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(46,125,50,0.65);
+      box-shadow: 0 12px 32px rgba(46,125,50,0.6);
       animation: none;
     }
     @keyframes pulse-green {
       0%,100% { box-shadow: 0 6px 24px rgba(46,125,50,0.4); }
-      50%      { box-shadow: 0 6px 36px rgba(100,200,100,0.7); }
+      50%      { box-shadow: 0 8px 36px rgba(100,200,100,0.65); }
     }
 
     #btnLanjut {
       display: none;
-      padding: 12px 36px;
-      font-size: clamp(14px, 4vw, 17px);
-      font-weight: 800;
+      padding: 13px 40px;
+      font-size: clamp(15px, 4vw, 18px);
+      font-weight: 900;
       font-family: 'Nunito', sans-serif;
       background: linear-gradient(135deg, #1565c0, #1976d2);
       color: #fff;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(21,101,192,0.5);
+      box-shadow: 0 6px 20px rgba(21,101,192,0.4);
       transition: transform 0.15s, box-shadow 0.15s;
     }
     #btnLanjut:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(21,101,192,0.65);
-    }
-
-    .hint {
-      font-size: 12px;
-      color: rgba(255,255,255,0.35);
-      text-align: center;
+      box-shadow: 0 10px 28px rgba(21,101,192,0.6);
     }
   </style>
 </head>
 <body>
 
-<!-- Stars -->
-<div class="stars" id="stars"></div>
+<div class="clouds" id="clouds"></div>
 
 <div class="wrap">
+  <video id="vid" autoplay playsinline controls>
+    <source src="video.mp4" type="video/mp4">
+  </video>
 
-  <!-- HEADER -->
-  <div class="header-card">
-    <div class="badges">
-      <span class="badge">Kelas VIII SMP</span>
-      <span class="badge">Kurikulum Merdeka</span>
-    </div>
-    <span class="emoji-icon">📖</span>
-    <h1>Media Pembelajaran <span>Interaktif</span></h1>
-    <p class="subtitle">Bahasa Indonesia — Teks Puisi</p>
-    <div class="divider"></div>
-    <p class="penulis">Penulis</p>
-    <p class="nama">Nia Ramadhani</p>
-  </div>
-
-  <!-- VIDEO -->
-  <div class="video-section">
-    <video id="vid" controls playsinline>
-      <source src="video.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- BOTTOM -->
-  <div class="bottom-card">
-    <button id="btnMulai" onclick="mulai()">▶ Mulai</button>
+  <div class="bottom">
+    <button id="btnMulai" onclick="keGenially()">▶ Mulai</button>
     <button id="btnLanjut" onclick="keGenially()">🚀 Lanjut ke Materi →</button>
-    <p class="hint" id="hint">Tonton video, lalu lanjut ke materi interaktif</p>
   </div>
-
 </div>
 
 <script>
-  // Generate stars
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 60; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 3 + 1;
-    s.style.cssText = `
-      width:${size}px; height:${size}px;
-      top:${Math.random()*100}%;
-      left:${Math.random()*100}%;
-      animation-duration:${2+Math.random()*4}s;
-      animation-delay:${Math.random()*4}s;
-    `;
-    starsEl.appendChild(s);
-  }
+  // Clouds
+  const cloudsEl = document.getElementById('clouds');
+  const cloudData = [
+    { top: 8,  w: 120, h: 36, dur: 28, delay: 0 },
+    { top: 18, w: 80,  h: 24, dur: 22, delay: 5 },
+    { top: 5,  w: 160, h: 44, dur: 35, delay: 12 },
+    { top: 25, w: 100, h: 30, dur: 26, delay: 8 },
+    { top: 12, w: 60,  h: 20, dur: 18, delay: 3 },
+  ];
+  cloudData.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'cloud';
+    el.style.cssText = `top:${c.top}%; width:${c.w}px; height:${c.h}px; animation-duration:${c.dur}s; animation-delay:-${c.delay}s;`;
+    el.style.setProperty('--tw', c.w + 'px');
+    el.before;
+    cloudsEl.appendChild(el);
+  });
 
   const vid = document.getElementById('vid');
   const btnMulai = document.getElementById('btnMulai');
   const btnLanjut = document.getElementById('btnLanjut');
-  const hint = document.getElementById('hint');
 
-  function mulai() {
+  // autoplay fallback
+  vid.play().catch(() => {});
+
+  vid.onended = () => {
     btnMulai.style.display = 'none';
-    vid.play().catch(() => {});
-    vid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-    vid.onended = () => {
-      btnLanjut.style.display = 'block';
-      hint.textContent = 'Video selesai! Klik tombol untuk melanjutkan.';
-      btnLanjut.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
-  }
+    btnLanjut.style.display = 'block';
+  };
 
   function keGenially() {
     window.location.href = 'https://view.genially.com/69d64d4fb0704131c5d9c2a3';
