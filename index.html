@@ -2,93 +2,125 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Edukasi</title>
-
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      margin: 0;
-      font-family: Arial;
-      background: #eef3f8;
+      background: #0d1117;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: clamp(1.1rem, 4vw, 1.6rem);
       text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
     }
 
-    .container {
-      padding: 40px 20px;
-    }
-
-    /* COVER */
-    .cover {
-      max-width: 700px;
-      width: 90%;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-
-    /* VIDEO */
-    video {
+    .video-wrapper {
+      width: 100%;
+      max-width: 800px;
       display: none;
-      width: 90%;
-      max-width: 700px;
-      border-radius: 15px;
-      margin-top: 20px;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
 
-    /* BUTTON */
-    button {
-      margin-top: 25px;
-      padding: 14px 28px;
-      font-size: 18px;
-      background: #2e7d32;
-      color: white;
+    video {
+      width: 100%;
+      border-radius: 12px;
+      background: #000;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    }
+
+    .btn {
+      padding: 14px 36px;
+      font-size: clamp(15px, 4vw, 18px);
+      font-weight: 700;
       border: none;
-      border-radius: 10px;
+      border-radius: 50px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.5px;
     }
 
-    button:hover {
-      background: #1b5e20;
+    #btnMulai {
+      background: linear-gradient(135deg, #2e7d32, #43a047);
+      color: white;
+      box-shadow: 0 6px 20px rgba(46,125,50,0.4);
+    }
+
+    #btnMulai:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(46,125,50,0.5);
+    }
+
+    #btnFullscreen {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 14px;
+      padding: 10px 22px;
+    }
+
+    #btnFullscreen:hover {
+      background: rgba(255,255,255,0.18);
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   </style>
 </head>
-
 <body>
 
-  <div class="container">
+  <h1>📽️ Media Pembelajaran — Teks Puisi</h1>
 
-    <!-- COVER IMAGE -->
-    <img src="cover.jpg" class="cover">
+  <button class="btn" id="btnMulai" onclick="mulai()">▶ Mulai</button>
 
-    <!-- VIDEO -->
-    <video id="videoPlayer" controls>
+  <div class="video-wrapper" id="videoBox">
+    <video id="vid" controls playsinline>
       <source src="video.mp4" type="video/mp4">
     </video>
-
-    <!-- BUTTON -->
-    <br>
-    <button onclick="mulaiVideo()">▶ Mulai</button>
-
+    <div class="controls">
+      <button class="btn" id="btnFullscreen" onclick="fullscreen()">⛶ Layar Penuh</button>
+    </div>
   </div>
 
   <script>
-    const video = document.getElementById("videoPlayer");
+    const vid = document.getElementById('vid');
+    const box = document.getElementById('videoBox');
+    const btnMulai = document.getElementById('btnMulai');
 
-    function mulaiVideo() {
-      // tampilkan video
-      video.style.display = "block";
+    function mulai() {
+      btnMulai.style.display = 'none';
+      box.style.display = 'flex';
+      vid.play().catch(() => {});
+      vid.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-      // scroll ke video
-      video.scrollIntoView({ behavior: "smooth" });
+      vid.onended = function () {
+        window.location.href = 'https://view.genially.com/69d64d4fb0704131c5d9c2a3';
+      };
+    }
 
-      // play video (dipastikan bisa karena klik user)
-      video.play().catch(() => {
-        alert("Klik lagi untuk mulai video");
-      });
-
-      // redirect setelah selesai
-      video.onended = function() {
-        window.location.href = "https://view.genially.com/69d64d4fb0704131c5d9c2a3";
-      }
+    function fullscreen() {
+      if (vid.requestFullscreen) vid.requestFullscreen();
+      else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen(); // iOS Safari
+      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen(); // iPhone fallback
     }
   </script>
 
