@@ -3,60 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <title>Video Edukasi</title>
+
   <style>
     body {
+      margin: 0;
       font-family: Arial;
+      background: #eef3f8;
       text-align: center;
-      background: #f4f4f4;
     }
 
+    .container {
+      padding: 40px 20px;
+    }
+
+    /* COVER */
+    .cover {
+      max-width: 700px;
+      width: 90%;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    /* VIDEO */
     video {
-      width: 80%;
-      max-width: 600px;
+      display: none;
+      width: 90%;
+      max-width: 700px;
+      border-radius: 15px;
       margin-top: 20px;
-      border-radius: 10px;
     }
 
+    /* BUTTON */
     button {
-      margin-top: 20px;
-      padding: 12px 20px;
+      margin-top: 25px;
+      padding: 14px 28px;
       font-size: 18px;
-      background: #4CAF50;
+      background: #2e7d32;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
-      background: #45a049;
+      background: #1b5e20;
     }
   </style>
 </head>
+
 <body>
 
-  <h2>Video Pembelajaran</h2>
+  <div class="container">
 
-  <!-- VIDEO -->
-  <video id="videoPlayer">
-    <source src="video.mp4" type="video/mp4">
-    Browser tidak mendukung video.
-  </video>
+    <!-- COVER IMAGE -->
+    <img src="cover.jpg" class="cover">
 
-  <br>
+    <!-- VIDEO -->
+    <video id="videoPlayer" controls>
+      <source src="video.mp4" type="video/mp4">
+    </video>
 
-  <!-- TOMBOL MULAI -->
-  <button onclick="mulaiVideo()">▶ Mulai</button>
+    <!-- BUTTON -->
+    <br>
+    <button onclick="mulaiVideo()">▶ Mulai</button>
+
+  </div>
 
   <script>
     const video = document.getElementById("videoPlayer");
 
     function mulaiVideo() {
-      video.play();
+      // tampilkan video
+      video.style.display = "block";
 
-      // setelah video selesai → redirect
+      // scroll ke video
+      video.scrollIntoView({ behavior: "smooth" });
+
+      // play video (dipastikan bisa karena klik user)
+      video.play().catch(() => {
+        alert("Klik lagi untuk mulai video");
+      });
+
+      // redirect setelah selesai
       video.onended = function() {
-        window.location.href = "https://view.genially.com/69d64d4fb0704131c5d9c2a3"; // ganti link kamu
+        window.location.href = "https://view.genially.com/69d64d4fb0704131c5d9c2a3";
       }
     }
   </script>
