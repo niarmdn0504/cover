@@ -3,126 +3,261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Edukasi</title>
+  <title>Media Pembelajaran — Teks Puisi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #0d1117;
       min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      background: #0a1628;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: 'Segoe UI', sans-serif;
       padding: 20px;
+      overflow-x: hidden;
     }
+
+    /* ── ANIMATED STARS BG ── */
+    .stars {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle linear infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.1; transform: scale(1); }
+      50%      { opacity: 0.8; transform: scale(1.4); }
+    }
+
+    /* ── MAIN WRAPPER ── */
+    .wrap {
+      position: relative; z-index: 10;
+      width: 100%; max-width: 720px;
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+    }
+
+    /* ── HEADER CARD ── */
+    .header-card {
+      width: 100%;
+      background: linear-gradient(135deg, #1a3a6b 0%, #0d2447 100%);
+      border: 1.5px solid rgba(100,160,255,0.25);
+      border-radius: 24px 24px 0 0;
+      padding: 32px 28px 24px;
+      text-align: center;
+      box-shadow: 0 -4px 40px rgba(0,100,255,0.15);
+    }
+
+    .badges {
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .emoji-icon { font-size: 48px; display: block; margin-bottom: 12px; }
 
     h1 {
-      color: #ffffff;
-      font-size: clamp(1.1rem, 4vw, 1.6rem);
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      opacity: 0.9;
+      font-size: clamp(18px, 5vw, 26px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    h1 span { color: #64b5f6; }
+
+    .subtitle {
+      font-size: clamp(13px, 3.5vw, 15px);
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 14px;
     }
 
-    .video-wrapper {
+    .divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, #1565c0, #42a5f5);
+      border-radius: 2px;
+      margin: 0 auto 14px;
+    }
+
+    .penulis {
+      font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .nama {
+      font-size: clamp(15px, 4vw, 18px);
+      font-weight: 800; color: #fff;
+    }
+
+    /* ── VIDEO SECTION ── */
+    .video-section {
       width: 100%;
-      max-width: 800px;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
+      background: #000;
     }
 
     video {
       width: 100%;
-      border-radius: 12px;
+      display: block;
+      max-height: 65vw;
       background: #000;
-      box-shadow: 0 0 40px rgba(0,0,0,0.6);
     }
 
-    .btn {
-      padding: 14px 36px;
-      font-size: clamp(15px, 4vw, 18px);
-      font-weight: 700;
+    /* ── BOTTOM CARD ── */
+    .bottom-card {
+      width: 100%;
+      background: linear-gradient(135deg, #0d2447 0%, #1a3a6b 100%);
+      border: 1.5px solid rgba(100,160,255,0.25);
+      border-top: none;
+      border-radius: 0 0 24px 24px;
+      padding: 22px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    /* ── BUTTONS ── */
+    #btnMulai {
+      padding: 15px 48px;
+      font-size: clamp(16px, 4.5vw, 20px);
+      font-weight: 900;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #2e7d32, #43a047);
+      color: #fff;
       border: none;
       border-radius: 50px;
       cursor: pointer;
+      box-shadow: 0 6px 24px rgba(46,125,50,0.5);
       transition: transform 0.15s, box-shadow 0.15s;
       letter-spacing: 0.5px;
+      animation: pulse-green 2s ease-in-out infinite;
     }
-
-    #btnMulai {
-      background: linear-gradient(135deg, #2e7d32, #43a047);
-      color: white;
-      box-shadow: 0 6px 20px rgba(46,125,50,0.4);
-    }
-
     #btnMulai:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(46,125,50,0.65);
+      animation: none;
+    }
+    @keyframes pulse-green {
+      0%,100% { box-shadow: 0 6px 24px rgba(46,125,50,0.4); }
+      50%      { box-shadow: 0 6px 36px rgba(100,200,100,0.7); }
+    }
+
+    #btnLanjut {
+      display: none;
+      padding: 12px 36px;
+      font-size: clamp(14px, 4vw, 17px);
+      font-weight: 800;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #1565c0, #1976d2);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(21,101,192,0.5);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    #btnLanjut:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(46,125,50,0.5);
+      box-shadow: 0 10px 28px rgba(21,101,192,0.65);
     }
 
-    #btnFullscreen {
-      background: rgba(255,255,255,0.1);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.2);
-      font-size: 14px;
-      padding: 10px 22px;
-    }
-
-    #btnFullscreen:hover {
-      background: rgba(255,255,255,0.18);
-    }
-
-    .controls {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
+    .hint {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <h1>📽️ Media Pembelajaran — Teks Puisi</h1>
+<!-- Stars -->
+<div class="stars" id="stars"></div>
 
-  <button class="btn" id="btnMulai" onclick="mulai()">▶ Mulai</button>
+<div class="wrap">
 
-  <div class="video-wrapper" id="videoBox">
+  <!-- HEADER -->
+  <div class="header-card">
+    <div class="badges">
+      <span class="badge">Kelas VIII SMP</span>
+      <span class="badge">Kurikulum Merdeka</span>
+    </div>
+    <span class="emoji-icon">📖</span>
+    <h1>Media Pembelajaran <span>Interaktif</span></h1>
+    <p class="subtitle">Bahasa Indonesia — Teks Puisi</p>
+    <div class="divider"></div>
+    <p class="penulis">Penulis</p>
+    <p class="nama">Nia Ramadhani</p>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="video-section">
     <video id="vid" controls playsinline>
       <source src="video.mp4" type="video/mp4">
     </video>
-    <div class="controls">
-      <button class="btn" id="btnFullscreen" onclick="fullscreen()">⛶ Layar Penuh</button>
-    </div>
   </div>
 
-  <script>
-    const vid = document.getElementById('vid');
-    const box = document.getElementById('videoBox');
-    const btnMulai = document.getElementById('btnMulai');
+  <!-- BOTTOM -->
+  <div class="bottom-card">
+    <button id="btnMulai" onclick="mulai()">▶ Mulai</button>
+    <button id="btnLanjut" onclick="keGenially()">🚀 Lanjut ke Materi →</button>
+    <p class="hint" id="hint">Tonton video, lalu lanjut ke materi interaktif</p>
+  </div>
 
-    function mulai() {
-      btnMulai.style.display = 'none';
-      box.style.display = 'flex';
-      vid.play().catch(() => {});
-      vid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+</div>
 
-      vid.onended = function () {
-        window.location.href = 'https://view.genially.com/69d64d4fb0704131c5d9c2a3';
-      };
-    }
+<script>
+  // Generate stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      animation-duration:${2+Math.random()*4}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    starsEl.appendChild(s);
+  }
 
-    function fullscreen() {
-      if (vid.requestFullscreen) vid.requestFullscreen();
-      else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen(); // iOS Safari
-      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen(); // iPhone fallback
-    }
-  </script>
+  const vid = document.getElementById('vid');
+  const btnMulai = document.getElementById('btnMulai');
+  const btnLanjut = document.getElementById('btnLanjut');
+  const hint = document.getElementById('hint');
+
+  function mulai() {
+    btnMulai.style.display = 'none';
+    vid.play().catch(() => {});
+    vid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    vid.onended = () => {
+      btnLanjut.style.display = 'block';
+      hint.textContent = 'Video selesai! Klik tombol untuk melanjutkan.';
+      btnLanjut.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+  }
+
+  function keGenially() {
+    window.location.href = 'https://view.genially.com/69d64d4fb0704131c5d9c2a3';
+  }
+</script>
 
 </body>
 </html>
