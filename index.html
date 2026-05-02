@@ -17,11 +17,9 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      position: relative;
       overflow: hidden;
     }
 
-    /* ── SUN ── */
     .sun {
       position: fixed;
       top: 30px; right: 40px;
@@ -37,7 +35,6 @@
       50%      { box-shadow: 0 0 60px 30px rgba(255,238,88,0.6); }
     }
 
-    /* ── CLOUDS SVG ── */
     .cloud-wrap {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: 1; overflow: hidden;
@@ -48,7 +45,6 @@
       to   { transform: translateX(110vw); }
     }
 
-    /* ── WRAP ── */
     .wrap {
       position: relative; z-index: 10;
       width: 100%; max-width: 720px;
@@ -74,18 +70,40 @@
       gap: 12px;
     }
 
-    #btnMulai {
-      padding: 15px 56px;
-      font-size: clamp(17px, 5vw, 22px);
-      font-weight: 900;
+    .btn {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #2e7d32, #43a047);
-      color: #fff;
+      font-weight: 900;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 6px 24px rgba(46,125,50,0.4);
       transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    #btnPutar {
+      padding: 15px 48px;
+      font-size: clamp(16px, 5vw, 21px);
+      background: linear-gradient(135deg, #f57c00, #ffa726);
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(245,124,0,0.45);
+      animation: pulse-orange 2s ease-in-out infinite;
+    }
+    #btnPutar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(245,124,0,0.6);
+      animation: none;
+    }
+    @keyframes pulse-orange {
+      0%,100% { box-shadow: 0 6px 24px rgba(245,124,0,0.45); }
+      50%      { box-shadow: 0 8px 36px rgba(255,167,38,0.7); }
+    }
+
+    #btnMulai {
+      display: none;
+      padding: 15px 48px;
+      font-size: clamp(16px, 5vw, 21px);
+      background: linear-gradient(135deg, #2e7d32, #43a047);
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(46,125,50,0.45);
       animation: pulse-green 2s ease-in-out infinite;
     }
     #btnMulai:hover {
@@ -97,33 +115,12 @@
       0%,100% { box-shadow: 0 6px 24px rgba(46,125,50,0.4); }
       50%      { box-shadow: 0 8px 36px rgba(100,200,100,0.65); }
     }
-
-    #btnLanjut {
-      display: none;
-      padding: 13px 40px;
-      font-size: clamp(15px, 4vw, 18px);
-      font-weight: 900;
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #1565c0, #1976d2);
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(21,101,192,0.4);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    #btnLanjut:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(21,101,192,0.6);
-    }
   </style>
 </head>
 <body>
 
-<!-- Sun -->
 <div class="sun"></div>
 
-<!-- Clouds SVG -->
 <div class="cloud-wrap">
   <svg class="cloud-svg" style="top:5%;animation-duration:30s;animation-delay:0s;" width="220" height="80" viewBox="0 0 220 80">
     <ellipse cx="110" cy="55" rx="100" ry="28" fill="white" opacity="0.9"/>
@@ -150,27 +147,25 @@
 </div>
 
 <div class="wrap">
-  <video id="vid" autoplay muted playsinline controls>
+  <video id="vid" playsinline controls>
     <source src="video.mp4" type="video/mp4">
   </video>
-
   <div class="bottom">
-    <button id="btnMulai" onclick="keGenially()">▶ Mulai Belajar</button>
-    <button id="btnLanjut" onclick="keGenially()">🚀 Lanjut ke Materi →</button>
+    <button id="btnPutar" class="btn" onclick="putarVideo()">▶ Putar Video</button>
+    <button id="btnMulai" class="btn" onclick="keGenially()">🚀 Mulai Belajar</button>
   </div>
 </div>
 
 <script>
   const vid = document.getElementById('vid');
+  const btnPutar = document.getElementById('btnPutar');
   const btnMulai = document.getElementById('btnMulai');
-  const btnLanjut = document.getElementById('btnLanjut');
 
-  vid.play().catch(() => {});
-
-  vid.onended = () => {
-    btnMulai.style.display = 'none';
-    btnLanjut.style.display = 'block';
-  };
+  function putarVideo() {
+    vid.play();
+    btnPutar.style.display = 'none';
+    btnMulai.style.display = 'block';
+  }
 
   function keGenially() {
     window.location.href = 'https://view.genially.com/69d64d4fb0704131c5d9c2a3';
